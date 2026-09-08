@@ -1,0 +1,14 @@
+[flake8]
+max-line-length = 120
+
+exclude = .git, __pycache__, .venv, .idea, build, dist, migrations
+
+ignore = E203, W503
+
+max-complexity = 10
+
+select = D100,D101,D102
+
+per-file-ignores =
+    tests/*: D100,D101,D102
+    src/data/*: F401

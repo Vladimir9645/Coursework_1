@@ -1,0 +1,37 @@
+[
+  {
+    "weekday": 0,
+    "total_amount": 1496,
+    "count_transactions": 11
+  },
+  {
+    "weekday": 1,
+    "total_amount": 1507,
+    "count_transactions": 11
+  },
+  {
+    "weekday": 2,
+    "total_amount": 1518,
+    "count_transactions": 11
+  },
+  {
+    "weekday": 3,
+    "total_amount": 1529,
+    "count_transactions": 11
+  },
+  {
+    "weekday": 4,
+    "total_amount": 1540,
+    "count_transactions": 11
+  },
+  {
+    "weekday": 5,
+    "total_amount": 1375,
+    "count_transactions": 10
+  },
+  {
+    "weekday": 6,
+    "total_amount": 1485,
+    "count_transactions": 11
+  }
+]
