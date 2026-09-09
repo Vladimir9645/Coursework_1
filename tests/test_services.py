@@ -69,3 +69,4 @@ def test_currency_and_stocks_data():
     assert "price" in stocks[0]
     assert "stock" in stocks[0]
 
+

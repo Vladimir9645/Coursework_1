@@ -1,0 +1,12 @@
+[
+  {
+    "day_type": "weekend",
+    "total_amount": 2860,
+    "count_transactions": 21
+  },
+  {
+    "day_type": "workday",
+    "total_amount": 7590,
+    "count_transactions": 55
+  }
+]

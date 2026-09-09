@@ -44,3 +44,4 @@ def format_datetime(dt: datetime | None = None, fmt: str = "%Y-%m-%d %H:%M:%S") 
     if dt is None:
         dt = datetime.now()
     return dt.strftime(fmt)
+

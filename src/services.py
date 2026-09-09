@@ -229,3 +229,4 @@ def fetch_sp500_stocks() -> List[Dict[str, Any]]:
         {"stock": "AMZN", "price": 158.7},
         {"stock": "NVDA", "price": 492.1},
     ]
+

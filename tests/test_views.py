@@ -74,3 +74,4 @@ def test_category_stats_and_cashback():
         assert "category" in item
         assert "cashback" in item
 
+

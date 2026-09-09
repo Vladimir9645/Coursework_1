@@ -22,3 +22,4 @@ def test_format_datetime():
     """Проверяет форматирование datetime в строку нужного формата."""
     dt = datetime(2024, 10, 1, 15, 30, 0)
     assert format_datetime(dt) == "2024-10-01 15:30:00"
+
