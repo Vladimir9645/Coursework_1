@@ -161,3 +161,4 @@ def spending_by_workday(df: pd.DataFrame, date: str) -> pd.DataFrame:
     )
 
     return agg
+

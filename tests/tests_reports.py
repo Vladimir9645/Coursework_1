@@ -118,3 +118,4 @@ def test_spending_by_category_saves_file(sample_df, tmp_path):
     finally:
         os.chdir(old_cwd)
 
+
