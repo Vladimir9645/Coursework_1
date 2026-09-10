@@ -1,47 +1,86 @@
-import re
+import json
 from datetime import datetime
+from pathlib import Path
+
+import pandas as pd
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+OPERATIONS_PATH = BASE_DIR / "data" / "operations.xlsx"
+SETTINGS_PATH = BASE_DIR / "data" / "user_settings.json"
+
+RENAME_MAP = {
+    "Дата операции": "date",
+    "Сумма платежа": "amount",
+    "Номер карты": "card_last4",
+    "Категория": "category",
+    "Описание": "description",
+    "Кэшбэк": "cashback",
+}
 
 
 def get_greeting(dt: datetime) -> str:
     hour = dt.hour
-    # 06:00–11:59 — «Доброе утро»
-    if 6 <= hour <= 11:
+    if 6 <= hour < 12:
         return "Доброе утро"
-    # 12:00–17:59 — «Добрый день»
-    elif 12 <= hour <= 17:
+    if 12 <= hour < 18:
         return "Добрый день"
-    # 18:00–22:59 — «Добрый вечер»
-    elif 18 <= hour <= 22:
+    if 18 <= hour < 23:
         return "Добрый вечер"
-    # остальное (23:00–05:59) — «Доброй ночи»
+    return "Доброй ночи"
+
+
+def format_datetime(
+        dt: datetime | None = None,
+        fmt: str = "%Y-%m-%d %H:%M:%S",
+) -> str:
+    return (dt or datetime.now()).strftime(fmt)
+
+
+def load_transactions(path: Path = OPERATIONS_PATH) -> pd.DataFrame:
+    df = pd.read_excel(path, engine="openpyxl")
+    df = df.rename(columns=RENAME_MAP)
+
+    required = {
+        "date",
+        "amount",
+        "card_last4",
+        "category",
+        "description",
+    }
+    missing = required - set(df.columns)
+    if missing:
+        raise ValueError(f"В Excel отсутствуют колонки: {sorted(missing)}")
+
+    df["date"] = pd.to_datetime(
+        df["date"],
+        format="%d.%m.%Y %H:%M:%S",
+        errors="coerce",
+    )
+    df["amount"] = pd.to_numeric(df["amount"], errors="coerce")
+    if "cashback" not in df.columns:
+        df["cashback"] = 0.0
     else:
-        return "Доброй ночи"
+        df["cashback"] = pd.to_numeric(
+            df["cashback"],
+            errors="coerce",
+        ).fillna(0)
+    df["card_last4"] = (
+        df["card_last4"]
+        .astype(str)
+        .str.extract(r"(\d{4})$", expand=False)
+    )
+    df["type"] = df["amount"].apply(
+        lambda amount: "income" if amount > 0 else "expense"
+    )
+
+    return df.dropna(subset=["date", "amount"])
 
 
-def normalize_phone(phone: str) -> str:
-    """
-    Приводит телефон к формату +7XXXXXXXXXX.
-    Поддерживает форматы: +7 (900) 000-00-00, 89000000000 и т.п.
-    Если формат не удаётся привести — возвращает исходную строку.
-    """
-    if not phone:
-        return phone
+def load_user_settings(path: Path = SETTINGS_PATH) -> dict:
+    with path.open(encoding="utf-8") as file:
+        settings = json.load(file)
 
-    digits = re.sub(r"\D", "", phone)
-
-    # Если начинается с 8 и длина 11 — меняем на 7
-    if digits.startswith("8") and len(digits) == 11:
-        digits = "7" + digits[1:]
-
-    # Если начинается с 7 и длина 11 — добавляем плюс
-    if digits.startswith("7") and len(digits) == 11:
-        return f"+{digits}"
-
-    return phone  # Если формат неверен — возвращаем как есть
-
-
-def format_datetime(dt: datetime | None = None, fmt: str = "%Y-%m-%d %H:%M:%S") -> str:
-    if dt is None:
-        dt = datetime.now()
-    return dt.strftime(fmt)
-
+    return {
+        "user_currencies": settings.get("user_currencies", []),
+        "user_stocks": settings.get("user_stocks", []),
+    }

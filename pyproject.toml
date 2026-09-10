@@ -1,20 +1,25 @@
 [project]
 name = "coursework-1"
 version = "0.1.0"
-description = ""
-authors = [
-    {name = "Your Name",email = "you@example.com"}
-]
-requires-python = "^3.14"
+description = "Анализ банковских операций"
+requires-python = ">=3.10"
 dependencies = [
     "pandas>=2.0.0",
+    "openpyxl>=3.1.0",
+    "requests>=2.31.0",
+    "python-dotenv>=1.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
     "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
 ]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-pythonpath = ["src"]
+pythonpath = ["."]
 
 [build-system]
-requires = ["setuptools", "wheel"]
+requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"

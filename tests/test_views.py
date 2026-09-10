@@ -6,7 +6,7 @@ from src.views import main_response
 
 
 def test_greeting_by_time():
-    dt = datetime(2024, 10, 1, 14, 30, 0)  # 14:30 — «Добрый день»
+    dt = datetime(2021, 12, 31, 14, 30, 0)  # 14:30 — «Добрый день»
     input_str = dt.strftime("%Y-%m-%d %H:%M:%S")
     resp_str = main_response(input_str)
     resp = json.loads(resp_str)
@@ -14,7 +14,7 @@ def test_greeting_by_time():
 
 
 def test_top_5_transactions_format():
-    dt = datetime(2024, 10, 1, 14, 30, 0)
+    dt = datetime(2021, 12, 31, 23, 59, 59)
     input_str = dt.strftime("%Y-%m-%d %H:%M:%S")
     resp_str = main_response(input_str)
     resp = json.loads(resp_str)
@@ -32,7 +32,7 @@ def test_top_5_transactions_format():
 
 
 def test_currency_rates_and_stocks():
-    dt = datetime(2024, 10, 1, 14, 30, 0)
+    dt = datetime(2021, 12, 31, 23, 59, 59)
     input_str = dt.strftime("%Y-%m-%d %H:%M:%S")
     resp_str = main_response(input_str)
     resp = json.loads(resp_str)
@@ -51,7 +51,7 @@ def test_currency_rates_and_stocks():
 
 
 def test_category_stats_and_cashback():
-    dt = datetime(2024, 10, 1, 14, 30, 0)
+    dt = datetime(2021, 12, 31, 23, 59, 59)
     input_str = dt.strftime("%Y-%m-%d %H:%M:%S")
     resp_str = main_response(input_str)
     resp = json.loads(resp_str)
